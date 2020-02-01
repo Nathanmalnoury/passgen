@@ -1,50 +1,34 @@
 #! /usr/bin/env python3
 
 import argparse
-import configparser
-import string
-import pyperclip
-import sys
-import os
-from main import password_generator
 
-config = configparser.ConfigParser()
-config.read(os.path.join(sys.argv[0], "../conf.ini"))
-defaults = config["DEFAULT"]
+from Conf import Conf
+from main import handle_request
 
-def_length = defaults["length"]
-def_upper = defaults["use_uppercase"]
-def_spec_chars = defaults["use_special_chars"]
-def_digits = defaults["use_digits"]
+conf = Conf()
 
+parser = argparse.ArgumentParser(
+    description="simple password generator. You can use the file `conf.ini` to change the default behaviour")
 
-parser = argparse.ArgumentParser(description="simple password generator")
-parser.add_argument("-l", action="store", dest="length", default=def_length, type=int,
+parser.add_argument("-l", action="store", dest="length", default=conf.get_length(), type=int,
                     help="set up the length of the password")
 
 parser.add_argument("--use-special-chars", action="store_true", dest="use_spec_chars",
-                    help="use this to use special characters", default=def_spec_chars)
+                    help="use this to use special characters", default=conf.get_spec_char())
 
 parser.add_argument("--no-upper", action="store_false", dest="use_upper_case",
-                    help="use this flag to prevent from using uppercase letter", default=def_upper)
+                    help="use this flag to prevent from using uppercase letter", default=conf.get_uppercase())
 
 parser.add_argument("--no-digit", action="store_false", dest="use_digits",
-                    help="use this flag to prevent from using digits", default=def_digits)
-# lower and upper
-# unicode
+                    help="use this flag to prevent from using digits", default=conf.get_digits())
+
+parser.add_argument("--show-password", action="store_true", dest="show_password",
+                    help="use this flag to show the password", default=conf.get_show_password())
+
+parser.add_argument("--copy-to-paperclip", action="store_true", dest="copy_to_paperclip",
+                    help="use this flag to copy the password to the paperclip", default=conf.get_paperclip())
 
 args = parser.parse_args()
 
-chars = string.ascii_lowercase
-if args.use_upper_case:
-    chars += string.ascii_uppercase
-if args.use_digits:
-    chars += string.digits
-if args.use_spec_chars:
-    chars += string.punctuation
-
-passw = password_generator(args.length, chars)
-pyperclip.copy(passw)
-print("password of length {}".format(args.length))
-print("password copied in the paperclip")
+handle_request(args)
 exit()
