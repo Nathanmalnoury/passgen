@@ -2,7 +2,7 @@
 """Script that processes the inputs and then run Password with the according options."""
 import pyperclip
 
-from PasswordGenerator import PasswordGenerator
+from password_generator import PasswordGenerator
 
 
 def handle_request(args):

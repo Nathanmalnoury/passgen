@@ -2,7 +2,7 @@
 """Parses the flags used when the module was called."""
 import argparse
 
-from Conf import Conf
+from conf import Conf
 from request_handler import handle_request
 
 conf = Conf()

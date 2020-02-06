@@ -2,7 +2,7 @@ import string
 import unittest
 from random import randint
 
-from passgen.PasswordGenerator import PasswordGenerator
+from passgen.password_generator import PasswordGenerator
 
 
 def is_in(list_a, list_b):
