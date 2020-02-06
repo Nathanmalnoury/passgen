@@ -6,6 +6,7 @@ from Conf import Conf
 from request_handler import handle_request
 
 conf = Conf()
+conf.read_conf("../conf.ini")
 
 parser = argparse.ArgumentParser(
     description="simple password generator. You can use the file `conf.ini` to change the default behaviour")
