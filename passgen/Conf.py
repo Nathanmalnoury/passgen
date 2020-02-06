@@ -15,13 +15,12 @@ class Conf(object):
 
         This reads the conf file and then store the defaults values in the instance.
         """
-        conf = Conf.read_conf()
-        self.use_uppercase = conf.get("upper")
-        self.use_spec_char = conf.get("spec_chars")
-        self.use_digits = conf.get("digits")
-        self.length = conf.get("length")
-        self.show_password = conf.get("show_pass")
-        self.copy_to_paper_clip = conf.get("paperclip")
+        self.use_uppercase = None
+        self.use_spec_char = None
+        self.use_digits = None
+        self.length = None
+        self.show_password = None
+        self.copy_to_paper_clip = None
 
     def get_uppercase(self):
         """
@@ -71,23 +70,21 @@ class Conf(object):
         """
         return self.copy_to_paper_clip
 
-    @staticmethod
-    def read_conf():
+    def read_conf(self, filename):
         """
         Read conf file and store the default values in a dictionary.
 
+        :param filename: name of the conf file
+        :type filename: str
         :return: dict with the default values
         :rtype: dict
         """
         config = configparser.ConfigParser()
-        config.read(os.path.join(sys.argv[0], "../conf.ini"))
+        config.read(os.path.join(sys.argv[0], filename))
         defaults = config["DEFAULT"]
-
-        return {
-            "length": defaults.get("length"),
-            "upper": defaults.getboolean("use_uppercase"),
-            "spec_chars": defaults.getboolean("use_special_chars"),
-            "digits": defaults.getboolean("use_digits"),
-            "show_pass": defaults.getboolean("show_password"),
-            "paperclip": defaults.getboolean("copy_to_paperclip")
-        }
+        self.use_uppercase = defaults.getboolean("upper")
+        self.use_spec_char = defaults.getboolean("spec_chars")
+        self.use_digits = defaults.getboolean("digits")
+        self.length = defaults.get("length")
+        self.show_password = defaults.getboolean("show_pass")
+        self.copy_to_paper_clip = defaults.getboolean("paperclip")
