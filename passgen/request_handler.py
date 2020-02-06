@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
-
+"""Script that processes the inputs and then run Password with the according options."""
 import pyperclip
 
 from PasswordGenerator import PasswordGenerator
 
 
 def handle_request(args):
+    """
+    Take a set of args and generate a password.
+
+    This uses PasswordGenerator Class
+    :param args: args from the CLI or the conf file
+    :param args: argparse.Namespace
+    :return: None
+    :type: None
+    """
     password_generator = PasswordGenerator(args.length)
     print("password of length {}".format(args.length))
 
