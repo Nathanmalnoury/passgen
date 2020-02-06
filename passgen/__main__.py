@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-
+"""Parses the flags used when the module was called."""
 import argparse
 
 from Conf import Conf
