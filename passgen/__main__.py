@@ -3,7 +3,7 @@
 import argparse
 
 from Conf import Conf
-from main import handle_request
+from request_handler import handle_request
 
 conf = Conf()
 
@@ -31,4 +31,5 @@ parser.add_argument("--copy-to-paperclip", action="store_true", dest="copy_to_pa
 args = parser.parse_args()
 
 handle_request(args)
+
 exit()
