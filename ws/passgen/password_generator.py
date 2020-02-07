@@ -11,7 +11,7 @@ class PasswordGenerator:
         """
         Initialise an instance of PasswordGenerator.
 
-        :param length: length of the wanted password
+        :param length: length of the wanted password.py
         :type length: int
         """
         self.allowed_chars = list(string.ascii_lowercase)
@@ -19,7 +19,7 @@ class PasswordGenerator:
 
     def use_uppercase(self, use=True):
         """
-        Set whether or not to use uppercase characters in password.
+        Set whether or not to use uppercase characters in password.py.
 
         :type use: bool
         :return: None
@@ -29,7 +29,7 @@ class PasswordGenerator:
 
     def use_digits(self, use=True):
         """
-        Set whether or not to use digits in password.
+        Set whether or not to use digits in password.py.
 
         :type use: bool
         :return: None
@@ -39,7 +39,7 @@ class PasswordGenerator:
 
     def use_special_characters(self, use=True):
         """
-        Set whether or not to use special characters in password.
+        Set whether or not to use special characters in password.py.
 
         :type use: bool
         :return: None
@@ -58,7 +58,7 @@ class PasswordGenerator:
 
     def generate(self):
         """
-        Generate password with the allowed characters.
+        Generate password.py with the allowed characters.
 
         :return: str of length self.length
         :rtype: str

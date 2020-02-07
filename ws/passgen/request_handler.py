@@ -7,16 +7,16 @@ from password_generator import PasswordGenerator
 
 def handle_request(args):
     """
-    Take a set of args and generate a password.
+    Take a set of args and generate a password.py.
 
     This uses PasswordGenerator Class
-    :param args: args from the CLI or the conf file
+    :param args: args from the CLI or the conf fileDB
     :param args: argparse.Namespace
     :return: None
     :type: None
     """
     password_generator = PasswordGenerator(args.length)
-    print("password of length {}".format(args.length))
+    print("password.py of length {}".format(args.length))
 
     password_generator.use_uppercase(use=args.use_upper_case)
     password_generator.use_digits(use=args.use_digits)
@@ -26,7 +26,7 @@ def handle_request(args):
 
     if args.copy_to_paperclip:
         pyperclip.copy(password)
-        print("password copied in the paperclip")
+        print("password.py copied in the paperclip")
 
     if args.show_password:
         print(password)
