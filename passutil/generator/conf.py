@@ -80,7 +80,7 @@ class Conf(object):
         :rtype: dict
         """
         config = configparser.ConfigParser()
-        config.read(os.path.join(sys.argv[0], filename))
+        config.read(os.path.join(os.path.dirname(sys.argv[0]), filename))
         defaults = config["PASSWORD_GENERATOR"]
         self.use_uppercase = defaults.getboolean("use_uppercase")
         self.use_spec_char = defaults.getboolean("use_special_chars")

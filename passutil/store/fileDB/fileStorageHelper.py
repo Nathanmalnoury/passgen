@@ -3,12 +3,12 @@ import os
 import sys
 from builtins import print
 
-from ws.passstore.fileDB.password_file import PasswordFile
+from store.fileDB.password_file import PasswordFile
 
 
 class FileStorageHelper:
     def __init__(self):
-        self.filename = os.path.join(os.path.dirname(sys.argv[0]), "./../../pass_files.json")
+        self.filename = os.path.join(os.path.dirname(sys.argv[0]), "./pass_files.json")
         self.content = []  # list of PasswordFile
 
     def load_db(self):
@@ -75,7 +75,7 @@ class FileStorageHelper:
         return [f.filepath for f in self.content]
 
     def save_db(self):
-        to_save = [f.to_json for f in self.content]
+        to_save = [f.to_json() for f in self.content]
         with open(self.filename, 'w') as f:
             json.dump(to_save, f, indent=4)
 

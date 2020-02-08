@@ -1,1 +1,30 @@
-[]
+[
+    {
+        "filepath": "test.psw",
+        "salt": "\u00aaSW#L\u00e3@\u0081(`\u0082\u0014\u00d6\u0084\u00b2;"
+    },
+    {
+        "filepath": "/home/nathan/nathan.psw",
+        "salt": "\u00b2%$=\u0005\u00a7\u0088\u008f\u00ee\u00d8@SEl\u00b2\u009f"
+    },
+    {
+        "filepath": "/home/nathan/yyy.test",
+        "salt": "9\u00c4\u00d3\u00a2\u00aeh\u00b0\u00a2B\u00ca\u00b6\u00e7\u000b\u00d3t\u0099"
+    },
+    {
+        "filepath": "/home/nathan/testi.psw",
+        "salt": "\u00ed\u00ac\u00f6\u00e6\u009en\u0004\"-\u009a\u0081\u0096\u00d8\u00ddv\u0090"
+    },
+    {
+        "filepath": "/home/nathan/lol.psw",
+        "salt": "\u008f\u00e9\u00c4\u001e1\u008f\u00bb\u00f4\u001a\u00a1*\u00b4\u00e5\u00f3 d"
+    },
+    {
+        "filepath": "/home/nathan/ttttt.psw",
+        "salt": "Hg\u00beK\u00f8\u00a0p\u0098/\u00d2\u00f9\u00b4<\u0085\u00df\u0004"
+    },
+    {
+        "filepath": "/home/nathan/oo.psw",
+        "salt": "\u0082\u001e\u009b&,r!\u00ca\u0099\u008d\u0090\u008cP\u00b0g\b"
+    }
+]

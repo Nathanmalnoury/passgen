@@ -1,9 +1,10 @@
 import json
+import os
 
-from ws.passstore.encryption_manager import EncryptionManager
-from ws.passstore.fileDB.fileStorageHelper import FileStorageHelper
-from ws.passstore.fileDB.password_file import PasswordFile
-from ws.passstore.password.password import PasswordEntry
+from store.encryption_manager import EncryptionManager
+from store.fileDB.fileStorageHelper import FileStorageHelper
+from store.fileDB.password_file import PasswordFile
+from store.password.password import PasswordEntry
 
 
 class FileHandler:
@@ -32,9 +33,22 @@ class FileHandler:
         file_handler = FileHandler(file_path=file_path, password=password, salt=salt)
         file_handler.write_in_file(json.dumps([]))
         fsh.save_db()
-
-        print("Password file Created")
         return file_handler
+
+    @staticmethod
+    def delete(file_path, password):
+        fsh = FileStorageHelper()
+        fsh.load_db()
+        salt = fsh.get_salt_from_path(file_path)
+
+        fh = FileHandler(file_path=file_path, password=password, salt=salt)
+
+        fh.get_all_entries()  # check the master password
+        fh.delete_all_entries()  # make it empty
+
+        fsh.delete_file(PasswordFile(filepath=file_path, salt=salt))
+        fsh.save_db()
+        os.remove(file_path)
 
     def write_in_file(self, data):
         with open(self.file_path, mode='wb') as f:
@@ -58,7 +72,7 @@ class FileHandler:
         for password in decoded_stored_entries:
             if password.name == entry.name:
                 raise IndexError("Name already in file")
-        stored_entries.append(entry.to_json)
+        stored_entries.append(entry.to_json())
         self.write_in_file(json.dumps(stored_entries))
 
     def get_all_entries(self):
@@ -78,7 +92,8 @@ class FileHandler:
         for e in entries:
             if e.name.startswith(entry_name):
                 results.append(e)
-        if not e:
+
+        if not results:
             print("No corresponding name found")
         return results
 
@@ -98,23 +113,3 @@ class FileHandler:
 
     def delete_all_entries(self):
         self.write_in_file(json.dumps([]))
-
-
-if __name__ == '__main__':
-    file_path = "/home/nathan/test4.psw"
-    password = "test123"
-    fsh = FileStorageHelper()
-    fsh.load_db()
-    salt = fsh.get_file(file_path).salt
-    # print(salt)
-
-    file_handler = FileHandler(file_path=file_path, password=password, salt=salt)
-    # print(file_handler.get_all_entries())
-
-    # file_handler = FileHandler.create_file(file_path=file_path, password=password)
-
-    passw = PasswordEntry(username="nathan", name="test856kk", password="password123")
-    # file_handler.add_entry(passw)
-
-    entries_ = file_handler.get_all_entries()
-    [print(e) for e in entries_]
