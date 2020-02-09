@@ -5,8 +5,8 @@ Distributes the call between the two click_commands.py from modules generator an
 """
 import click
 
-from generator import click_commands as generator_commands
-from store import click_commands as group_store
+from passutil.generator import click_commands as generator_commands
+from passutil.store import click_commands as group_store
 
 
 @click.group()

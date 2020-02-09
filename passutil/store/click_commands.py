@@ -5,10 +5,10 @@ import pprint
 import click
 from cryptography.fernet import InvalidToken
 
-from click_utils import ok_msg, err_msg
-from store.file.file_handler import FileHandler
-from store.fileDB.fileStorageHelper import FileStorageHelper
-from store.password.password import PasswordEntry
+from passutil.click_utils import ok_msg, err_msg
+from passutil.store.file.file_handler import FileHandler
+from passutil.store.fileDB.fileStorageHelper import FileStorageHelper
+from passutil.store.password.password import PasswordEntry
 
 
 @click.group(help='Manage encrypted files and passwords in them.')

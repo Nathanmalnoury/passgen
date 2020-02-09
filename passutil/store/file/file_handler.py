@@ -2,11 +2,11 @@
 import json
 import os
 
-from click_utils import info_msg
-from store.encryption_manager import EncryptionManager
-from store.fileDB.fileStorageHelper import FileStorageHelper
-from store.fileDB.password_file import PasswordFile
-from store.password.password import PasswordEntry
+from passutil.click_utils import info_msg
+from passutil.store.encryption_manager import EncryptionManager
+from passutil.store.fileDB.fileStorageHelper import FileStorageHelper
+from passutil.store.fileDB.password_file import PasswordFile
+from passutil.store.password.password import PasswordEntry
 
 
 class FileHandler:
