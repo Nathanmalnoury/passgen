@@ -15,5 +15,13 @@ def ok_msg(text):
 
 
 def err_msg(text):
-    """Echo a red message, meaning failure of an operation."""
-    click.echo(click.style(ERROR_MESSAGE + text, fg='red'))
+    """
+    Echo a red message, meaning failure of an operation.
+
+    :param text: either str or Exception, to print the error message
+    :type text: str or Exception
+    """
+    if type(text) == str:
+        click.echo(click.style(ERROR_MESSAGE + text, fg='red'))
+    elif isinstance(text, Exception):
+        click.echo(click.style(ERROR_MESSAGE + text.__str__(), fg='red'))

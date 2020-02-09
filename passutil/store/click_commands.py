@@ -43,7 +43,7 @@ def new(ctx, master_password):
         exit()
 
     except Exception as e:
-        err_msg(e.__str__())
+        err_msg(e)
 
 
 @file.command('delete', help='Delete a file')
@@ -105,15 +105,18 @@ def get_all(ctx):
 @click.option('--absolute', is_flag=True, default=False, help='Only returns the perfect match')
 def get(ctx, name, absolute):
     """Get one or several passwords in an encrypted file."""
-    path = ctx.obj.get("path")
-    salt = FileStorageHelper.get_salt_from_path(path)
-    fh = FileHandler(file_path=path, password=ctx.obj.get("master_password"), salt=salt)
-    if absolute:
-        entries = [fh.get_entry(name)]
-    else:
-        entries = fh.get_entry_starting_by(name)
+    try:
+        path = ctx.obj.get("path")
+        salt = FileStorageHelper.get_salt_from_path(path)
+        fh = FileHandler(file_path=path, password=ctx.obj.get("master_password"), salt=salt)
+        if absolute:
+            entries = [fh.get_entry(name)]
+        else:
+            entries = fh.get_entry_starting_by(name)
 
-    [pprint.pprint(json.loads(pwd.to_json()), compact=False, indent=2) for pwd in entries]
+        [pprint.pprint(json.loads(pwd.to_json()), compact=False, indent=2) for pwd in entries]
+    except Exception as e:
+        err_msg(e)
 
 
 @password.command()
@@ -130,10 +133,10 @@ def add(ctx, name, username, password_):
         fh.add_entry(PasswordEntry(username=username, password=password_, name=name))
         ok_msg("Addition of a new password successful")
     except IndexError as e:
-        err_msg(e.__str__())
+        err_msg(e)
         exit()
     except Exception as e:
-        err_msg(e.__str__())
+        err_msg(e)
         exit()
 
 
@@ -142,7 +145,16 @@ def add(ctx, name, username, password_):
 @click.option('--name', help='name of the entry to delete', prompt=True)
 def delete(ctx, name):
     """Get delete a password in an encrypted file."""
-    path = ctx.obj.get("path")
-    salt = FileStorageHelper.get_salt_from_path(path)
-    fh = FileHandler(file_path=path, password=ctx.obj.get("master_password"), salt=salt)
-    fh.delete_entry(entry_name=name)
+    try:
+        path = ctx.obj.get("path")
+        salt = FileStorageHelper.get_salt_from_path(path)
+        fh = FileHandler(file_path=path, password=ctx.obj.get("master_password"), salt=salt)
+        fh.delete_entry(entry_name=name)
+        ok_msg("Deletion successful")
+        exit()
+    except InvalidToken:
+        err_msg("Master password incorrect. Please retry.")
+        exit()
+    except Exception as e:
+        err_msg(e.__str__())
+        exit()

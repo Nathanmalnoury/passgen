@@ -2,7 +2,7 @@
 import json
 import os
 
-from click_utils import info_msg, ok_msg
+from click_utils import info_msg
 from store.encryption_manager import EncryptionManager
 from store.fileDB.fileStorageHelper import FileStorageHelper
 from store.fileDB.password_file import PasswordFile
@@ -57,7 +57,6 @@ class FileHandler:
         pass_file = PasswordFile(file_path=file_path, salt=salt)
 
         if not pass_file.is_complete():
-            info_msg("Something is wrong. Log to be detailed")
             return False
 
         if not fsh.add_file(pass_file):
@@ -195,7 +194,6 @@ class FileHandler:
             if e.name == entry_name:
                 entries.remove(e)
                 self.write_in_file(json.dumps([pwd.to_json() for pwd in entries]))
-                ok_msg("Deletion successful")
                 return True
         IndexError("Deletion failed. No such entry")
 
