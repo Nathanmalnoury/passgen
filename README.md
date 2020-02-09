@@ -49,11 +49,9 @@ Here is what pyperclip documentation says about it :
 
 
 
-
-
 ## Configuration:
 
-This program comes with a configuration file `conf.ini`, which is used as the default configuration for the tool (ie. without any flag passed). 
+The password generation option of this tool comes with a configuration file `conf.ini`, which is used as the default configuration for the tool (ie. without any flag passed). 
 
 
 
