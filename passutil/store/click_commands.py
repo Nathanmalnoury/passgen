@@ -1,26 +1,19 @@
+"""Click commands for the Command Line Interface Tool."""
 import json
 import pprint
 
 import click
 from cryptography.fernet import InvalidToken
 
+from click_utils import ok_msg, err_msg
 from store.file.file_handler import FileHandler
 from store.fileDB.fileStorageHelper import FileStorageHelper
 from store.password.password import PasswordEntry
 
-ERROR_MESSAGE = "❌ Something went wrong: "
-
-
-def ok_msg(text):
-    click.echo(click.style(text, fg='green'))
-
-
-def err_msg(text):
-    click.echo(click.style(ERROR_MESSAGE + text, fg='red'))
-
 
 @click.group(help='Manage encrypted files and passwords in them.')
 def store():
+    """Group entry for storage endpoint."""
     pass
 
 
@@ -28,6 +21,7 @@ def store():
 @click.pass_context
 @click.option('--path', help='Creates a new encoded file. Do not support "~"', prompt=True)
 def file(ctx, path):
+    """Group entry for storage/file -> manage file."""
     ctx.obj = {'path': path}
 
 
@@ -35,6 +29,7 @@ def file(ctx, path):
 @click.option('--master-password', help='Master Password', prompt=True, hide_input=True, confirmation_prompt=True)
 @click.pass_context
 def new(ctx, master_password):
+    """Endpoint to create a new file."""
     try:
         FileHandler.create_file(file_path=ctx.obj.get('path'), password=master_password)
         ok_msg("Password file Created 📝")
@@ -51,12 +46,15 @@ def new(ctx, master_password):
         err_msg(e.__str__())
 
 
-@file.command('delete',  help='Delete a file')
+@file.command('delete', help='Delete a file')
 @click.option('--master-password', help='Master Password', prompt=True, hide_input=True)
 @click.pass_context
 def delete_file(ctx, master_password):
+    """Endpoint to delete a new file."""
     try:
-        FileHandler.delete(file_path=ctx.obj.get('path'), password=master_password)
+        path = ctx.obj.get('path')
+        salt = FileStorageHelper.get_salt_from_path(path)
+        FileHandler(file_path=path, password=master_password, salt=salt).delete()
         ok_msg("File successfully deleted.")
     except FileNotFoundError:
         err_msg("No such file '{}'".format(ctx.obj.get('path')))
@@ -68,6 +66,7 @@ def delete_file(ctx, master_password):
 
 @store.command(help='List all files encrypted using this tool.')
 def list_files():
+    """Endpoint to list all encrypted files in the OS."""
     fsh = FileStorageHelper()
     fsh.load_db()
     pprint.pprint(fsh.get_all_files(), indent=4)
@@ -78,20 +77,14 @@ def list_files():
 @click.option('--master-password', prompt=True, hide_input=True)
 @click.pass_context
 def password(ctx, path, master_password):
-    """
-
-    :type ctx: click.core.Context
-    :param path:
-    :param master_password:
-    :return:
-    """
-    print(ctx, type(ctx))
+    """Group entry for managing password in a file."""
     ctx.obj = {'path': path, 'master_password': master_password}
 
 
 @password.command()
 @click.pass_context
 def get_all(ctx):
+    """Get all password in an encrypted file."""
     path = ctx.obj.get("path")
     salt = FileStorageHelper.get_salt_from_path(path)
     try:
@@ -111,6 +104,7 @@ def get_all(ctx):
 @click.option('--name', prompt=True, help='Fullname or the start of the name to find')
 @click.option('--absolute', is_flag=True, default=False, help='Only returns the perfect match')
 def get(ctx, name, absolute):
+    """Get one or several passwords in an encrypted file."""
     path = ctx.obj.get("path")
     salt = FileStorageHelper.get_salt_from_path(path)
     fh = FileHandler(file_path=path, password=ctx.obj.get("master_password"), salt=salt)
@@ -126,17 +120,28 @@ def get(ctx, name, absolute):
 @click.pass_context
 @click.option('--name', help='name to store', prompt=True)
 @click.option('--username', help='username to store', prompt=True)
-@click.option('--password', prompt=True)
-def add(ctx, name, username, password):
-    path = ctx.obj.get("path")
-    salt = FileStorageHelper.get_salt_from_path(path)
-    fh = FileHandler(file_path=path, password=ctx.obj.get("master_password"), salt=salt)
-    fh.add_entry(PasswordEntry(username=username, password=password, name=name))
+@click.option('--password', 'password_', prompt=True)
+def add(ctx, name, username, password_):
+    """Get add a new password in an encrypted file."""
+    try:
+        path = ctx.obj.get("path")
+        salt = FileStorageHelper.get_salt_from_path(path)
+        fh = FileHandler(file_path=path, password=ctx.obj.get("master_password"), salt=salt)
+        fh.add_entry(PasswordEntry(username=username, password=password_, name=name))
+        ok_msg("Addition of a new password successful")
+    except IndexError as e:
+        err_msg(e.__str__())
+        exit()
+    except Exception as e:
+        err_msg(e.__str__())
+        exit()
 
 
 @password.command()
+@click.pass_context
 @click.option('--name', help='name of the entry to delete', prompt=True)
 def delete(ctx, name):
+    """Get delete a password in an encrypted file."""
     path = ctx.obj.get("path")
     salt = FileStorageHelper.get_salt_from_path(path)
     fh = FileHandler(file_path=path, password=ctx.obj.get("master_password"), salt=salt)
