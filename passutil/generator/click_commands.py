@@ -4,12 +4,12 @@
 import click
 import pyperclip
 
-from click_utils import ok_msg, info_msg
-from generator.conf import Conf
-from generator.password_generator import PasswordGenerator
+from passutil.click_utils import ok_msg, info_msg
+from passutil.generator.conf import Conf
+from passutil.generator.password_generator import PasswordGenerator
 
 conf = Conf()
-conf.read_conf("./conf.ini")
+conf.read_conf("./data/conf_passgen.ini")
 
 
 @click.command()
@@ -26,7 +26,7 @@ conf.read_conf("./conf.ini")
 @click.option("--copy-to-paperclip", is_flag=True, default=conf.get_paperclip(),
               help="use this flag to copy the password to the paperclip")
 def generate(length, special_chars, no_upper, no_digit, show_password, copy_to_paperclip):
-    """Generate a password. Use the 'conf.ini' as default."""
+    """Generate a password. Use the 'conf_passgen.ini' as default."""
     info_msg("🔒 Password Generator 🔒")
     pwg = PasswordGenerator(length=length)
     pwg.use_digits(no_digit)

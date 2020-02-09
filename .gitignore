@@ -124,7 +124,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
-pass_files.json
+passutil/data/passgen_files.json
 # Pyre type checker
 .pyre/
 .idea

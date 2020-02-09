@@ -3,13 +3,13 @@ import json
 import os
 import sys
 
-from store.click_commands import ok_msg, err_msg
-from store.fileDB.password_file import PasswordFile
+from passutil.store.click_commands import ok_msg, err_msg
+from passutil.store.fileDB.password_file import PasswordFile
 
 
 class FileStorageHelper:
     """
-    Help with the FileStorage (pass_files.json).
+    Help with the FileStorage (passgen_files.json).
 
     Includes methods to:
 
@@ -17,7 +17,7 @@ class FileStorageHelper:
     - CRUD on the entry in the file
     """
 
-    file_name = os.path.join(os.path.dirname(sys.argv[0]), "./pass_files.json")
+    file_name = os.path.join(os.path.dirname(sys.argv[0]), "./data/passgen_files.json")
 
     def __init__(self):
         """Init a FileStorageInstance."""
