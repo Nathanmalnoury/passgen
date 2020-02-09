@@ -5,7 +5,7 @@ import click
 import pyperclip
 
 from passutil.click_utils import ok_msg, info_msg
-from passutil.generator.conf import Conf
+from passutil.generator.conf.conf import Conf
 from passutil.generator.password_generator import PasswordGenerator
 
 conf = Conf()

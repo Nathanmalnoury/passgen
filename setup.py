@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
     name="passutil",  # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Nathan Malnoury",
     author_email="n.malnoury@gmail.com",
     description="A basic password manager / password generator",

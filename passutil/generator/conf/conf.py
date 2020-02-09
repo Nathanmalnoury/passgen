@@ -22,6 +22,14 @@ class Conf(object):
         self.show_password = None
         self.copy_to_paper_clip = None
 
+    def update_conf(self, filename):
+        """Write the conf in a file."""
+        conf = configparser.ConfigParser()
+        conf["PASSWORD_GENERATOR"] = self.to_dict()
+
+        with open(os.path.join(os.path.dirname(sys.argv[0]), filename), 'w') as configfile:
+            conf.write(configfile)
+
     def get_uppercase(self):
         """
         Get self.uppercase.
@@ -70,6 +78,18 @@ class Conf(object):
         """
         return self.copy_to_paper_clip
 
+    def __str__(self):
+        """Change the way Conf is printed."""
+        return "use_uppercase = {}\nuse_spec_char = {}\nuse_digits = {}\n" \
+               "length = {}\nshow_password = {}\ncopy_to_paper_clip = {}" \
+            .format(self.use_uppercase,
+                    self.use_spec_char,
+                    self.use_digits,
+                    self.length,
+                    self.show_password,
+                    self.copy_to_paper_clip
+                    )
+
     def read_conf(self, filename):
         """
         Read conf fileDB and store the default values in a dictionary.
@@ -88,3 +108,14 @@ class Conf(object):
         self.length = defaults.get("length")
         self.show_password = defaults.getboolean("show_password")
         self.copy_to_paper_clip = defaults.getboolean("copy_to_paperclip")
+
+    def to_dict(self):
+        """Make a dict out of a conf object."""
+        return {
+            "use_uppercase": self.get_uppercase(),
+            "use_special_chars": self.get_spec_char(),
+            "use_digits": self.get_digits(),
+            "length": self.get_length(),
+            "show_password": self.get_show_password(),
+            "copy_to_paperclip": self.get_paperclip(),
+        }
