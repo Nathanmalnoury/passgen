@@ -57,34 +57,61 @@ Here is what pyperclip documentation says about it :
 
 ## Configuration:
 
-The password generation option of this tool comes with a configuration file `conf.ini`, which is used as the default configuration for the tool (ie. without any flag passed). 
+The password generation option of this tool supports a default configuration using a file `passutil/data/conf_passgen.ini`, which is used as the default configuration for the tool (ie. without any flag passed).
 
 
-
-Here is what it looks like : 
+Here is what it looks like when the package is downloaded: 
 
 ```
-[DEFAULT]
-
-# integer, default length of the password 
-length = 20 
-
-# Boolean, whether to use uppercase characters or not
-use_uppercase = True 
-
-# Boolean, whether to use special characters or not
-use_special_chars = True 
-
-# Boolean, whether to use digits or not
-use_digits = True 
-
-# Boolean, whether to show the password in the CLI or not
-show_password = False 
-
-# Boolean, whether to copy the password to the paperclip or not
-copy_to_paperclip = True 
+[PASSWORD_GENERATOR]
+use_uppercase = True
+use_special_chars = True
+use_digits = True
+length = 25
+show_password = False
+copy_to_paperclip = True
 
 ```
 
+To modify that configuration, you can either modify the file or use the tool directly, with the conf argument.
+
+## Commands available
+```
+
+passutil
+    |
+    | - info : shows this message
+    |
+    | - generate   Generate a password. Use the 'conf_passgen.ini' as default.
+    |
+    | - conf       Manage the default configuration
+    |   |
+    |   | - show :   show the current state of the file.
+    |   |
+    |   | - modify : modify the conf
+    |   |   |
+    |   |   | - copy-to-paper-clip  Change the default value of copy_to_paperclip.
+    |   |   | - digits              Change the default value of use_digits.
+    |   |   | - length              Change the default value of length.
+    |   |   | - show-password       Change the default value of show_password.
+    |   |   | - spec-char           Change the default value of use_special_chars.
+    |   |   | - uppercase           Change the default value of use_uppercase.
+    |
+    | - store   Manage encrypted files and passwords in them.
+    |   |
+    |   |- list-files  List all files encrypted using this tool.
+    |   |
+    |   |- file        Manage encrypted files
+    |   |   |
+    |   |   |- delete  Delete a file
+    |   |   |- new     Create a new file
+    |   |
+    |   |- password    Manage password inside an encrypted file
+    |   |   |
+    |   |   |-add      Get add a new password in an encrypted file.
+    |   |   |-delete   Get delete a password in an encrypted file.
+    |   |   |-get      Get one or several passwords in an encrypted file.
+    |   |   |-get-all  Get all password in an encrypted file.
+``` 
 
 
