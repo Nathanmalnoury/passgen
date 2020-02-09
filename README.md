@@ -3,6 +3,12 @@
 
 
 ## Installation
+### Using Pip:
+```shell script
+$ pip3 install -i https://test.pypi.org/simple/ passutil
+```
+
+### From sources:
 
 1. clone the project 
 
